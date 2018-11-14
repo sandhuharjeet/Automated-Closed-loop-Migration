@@ -50,6 +50,7 @@ Our Solution will Leverage the following Open source technologies
 
 * Harjeet Sandhu <harjeets@cisco.com> - SP AMERICAS
 * Raj Singh <rajsin2@cisco.com> - SP AMERICAS
+* Marty Fierbaugh <mfierbau@cisco.com> - SELECT HQ
 
 
 

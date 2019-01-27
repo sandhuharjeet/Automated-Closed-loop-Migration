@@ -141,15 +141,25 @@ As mentioned above this solution can be used as a Demo or used in production, so
 These steps are for Ubuntu Linux but can be used for other installation as well. Also Python version 2.5 or later is required. 
 
 **Step1**: [Install and setup VIRL](http://get.virl.info/)
+
 **Step2**: [Install/Setup Pipeline, InfluxDB and Grafana]( https://github.com/cisco/bigmuddy-network-telemetry-pipeline)
+
 **Step3**: [Install/setup Jupyter Notebook]( https://jupyter.org/install.html)
+
 **Step4**: [Install Ansible 2.6 or later] (https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+
 **Step6**: [Install TextFSM using `pip install textfsm`] (https://pypi.org/project/textfsm/)
+
 **Step7**: [Git Clone the automation to local linux server] (https://github.com/sandhuharjeet/Automated-Closed-loop-Migration)
-**Step8**: Run Virl and load topology file `LDP_to_SR_Demo_VIRL_Base_config.virl` under `Virl_files` folder of cloned project. Start the simulation. 
+
+**Step8**: Run Virl and load topology file `LDP_to_SR_Demo_VIRL_Base_config.virl` under `Virl_files` folder of cloned project. Start the simulation.
+ 
 **Step9**: Start Ostinato client on ubuntu and load traffic generation profile `LDP_to_SR_Demo_ostinato_traffic_generator_VIRL.ossn` under `Virl_files` folder of cloned project.
+
 **Step10**: Load Garfana Dashboard using profile file `SR-Demo-all-interface-stats-1548624550086.json` under `Garfana Profile` Folder.
+
 **Step11**: Start Jupyter Notebook Server and Open `Automated_MPLS_to_SR_migration_MOP.ipynb` & `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb` notebooks.
+
 **Step12**: This completes the installation, please use above Usage section to run the complete demo.
 
 

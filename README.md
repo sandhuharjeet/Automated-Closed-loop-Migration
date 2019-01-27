@@ -146,11 +146,11 @@ These steps are for Ubuntu Linux but can be used for other installation as well.
 
 **Step3**: [Install/setup Jupyter Notebook]( https://jupyter.org/install.html)
 
-**Step4**: [Install Ansible 2.6 or later] (https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+**Step4**: [Install Ansible 2.6 or later](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-**Step6**: [Install TextFSM using `pip install textfsm`] (https://pypi.org/project/textfsm/)
+**Step6**: [Install TextFSM using:`pip install textfsm`](https://pypi.org/project/textfsm/)
 
-**Step7**: [Git Clone the automation to local linux server] (https://github.com/sandhuharjeet/Automated-Closed-loop-Migration)
+**Step7**: [Git Clone the automation to local linux server](https://github.com/sandhuharjeet/Automated-Closed-loop-Migration)
 
 **Step8**: Run Virl and load topology file `LDP_to_SR_Demo_VIRL_Base_config.virl` under `Virl_files` folder of cloned project. Start the simulation.
  

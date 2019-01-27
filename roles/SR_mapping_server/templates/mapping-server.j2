@@ -1,0 +1,11 @@
+segment-routing
+ mapping-server
+  prefix-sid-map
+   address-family ipv4
+    {{prefix_sid_map_1.prefix}} {{prefix_sid_map_1.start_sid_index}} range {{prefix_sid_map_1.index_range}}
+    {{prefix_sid_map_2.prefix}} {{prefix_sid_map_2.start_sid_index}} range {{prefix_sid_map_2.index_range}}
+
+router isis xr
+ address-family ipv4 unicast
+  segment-routing prefix-sid-map advertise-local
+

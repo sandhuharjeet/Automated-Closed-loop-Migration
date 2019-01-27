@@ -1,0 +1,16 @@
+---
+
+- hosts: '{{target}}'
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Rolling back Core Router as Mapping Server
+    iosxr_config:
+      provider:
+        host: "{{ ansible_host }}"
+        username: '{{ ansible_ssh_user }}'
+        password: '{{ ansible_ssh_pass }}'
+      src: ../templates/map-ser-rollback.j2
+      backup: yes

@@ -1,0 +1,29 @@
+---
+
+- hosts: "{{target}}"
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+
+  tasks:
+  - name: Collecting 'show ISIS neighbor' from all routers
+    ntc_show_command:
+      connection: ssh
+      template_dir: ../../../Show_commands/templates/ntc_templates/
+      platform: cisco_xr
+      host: "{{ ansible_host }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      command: "sh isis neigh"
+    register: result
+
+
+  - name: Configuring MPLS LDP for All ISIS interfaces on selected routers
+    iosxr_config:
+      provider:
+        host: "{{ ansible_host }}"
+        username: '{{ ansible_ssh_user }}'
+        password: '{{ ansible_ssh_pass }}'
+      src: ../templates/mpls-ldp-configure.j2
+      backup: yes

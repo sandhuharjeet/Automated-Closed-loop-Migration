@@ -1,0 +1,278 @@
+Building configuration...
+!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Sun Jan 27 00:47:32 2019 by ********
+!
+hostname P2
+group load-interval
+ interface 'GigabitEthernet*'
+  load-interval 30
+ !
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group ********-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username ********
+ group root-lr
+ group ********-support
+ secret 5 $1$xMWx$32ydaCMhwhIHwhnt1QG8p/
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.2 255.255.255.255
+!
+interface Loopback10
+ ipv4 address 144.228.242.20 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:20/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.7 255.255.255.254
+ load-interval 30
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.154 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.18 255.255.255.254
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.22 255.255.255.254
+!
+interface GigabitEthernet0/0/0/4
+ ipv4 address 10.10.0.5 255.255.255.254
+!
+interface GigabitEthernet0/0/0/5
+ ipv4 address 10.10.0.146 255.255.255.252
+!
+interface GigabitEthernet0/0/0/6
+ ipv4 address 10.10.0.101 255.255.255.252
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.20/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0002.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback10
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+   metric 1655555
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+   metric 1655555
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/5
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/6
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.20
+ bgp update-delay 300
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group sl-multicast-unicast-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   maximum-prefix 1000000 75 warning-only
+  !
+  address-family ipv4 multicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ neighbor-group multicast-unicast-client-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family ipv4 multicast
+   route-reflector-client
+  !
+  address-family ipv6 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 144.228.242.10
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.40
+  use neighbor-group sl-multicast-unicast-v4-v6
+ !
+ neighbor 144.228.242.100
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.205
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+ interface GigabitEthernet0/0/0/5
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+ interface GigabitEthernet0/0/0/5
+ !
+!
+mpls ldp
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+ interface GigabitEthernet0/0/0/5
+ !
+ interface GigabitEthernet0/0/0/6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup2
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup2
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 2
+  sensor-group-id Sgroup2 sample-interval 1000
+  destination-id DGroup2
+ !
+!
+ssh server v2
+ssh server vrf default
+end

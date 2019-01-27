@@ -1,0 +1,29 @@
+P1: 
+ prefix: "16001"
+ prefixlo10: "18001"
+P2:
+ prefix: "16002"
+ prefixlo10: "18002"
+P3: 
+ prefix: "16003"
+ prefixlo10: "18003"
+P4: 
+ prefix: "16004"
+ prefixlo10: "18004"
+GW1:
+ prefix: "21001"
+GW2:
+ prefix: "21002"
+GW4:
+ prefix: "21004"
+GW5:
+ prefix: "21005"
+PE1:
+ prefix: "19001"
+PE2:
+ prefix: "19002"
+PE3:
+ prefix: "19003"
+PE4:
+ prefix: "19004"
+

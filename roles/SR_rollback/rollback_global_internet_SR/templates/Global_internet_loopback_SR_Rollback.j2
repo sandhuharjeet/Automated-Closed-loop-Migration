@@ -1,0 +1,5 @@
+router isis xr
+ address-family ipv4 unicast
+   interface Loopback10
+   address-family ipv4 unicast
+   no prefix-sid absolute {{vars[name].prefixlo10}}

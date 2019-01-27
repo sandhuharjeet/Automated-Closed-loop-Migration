@@ -1,0 +1,20 @@
+---
+
+- hosts: "{{target}}"
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Show command collection for XR
+    iosxr_command:
+      provider:
+        host: "{{ ansible_host }}"
+        username: '{{ ansible_ssh_user }}'
+        password: '{{ ansible_ssh_pass }}'
+      commands: "{{commands}}"
+    register: show_command
+ 
+  - debug: var=show_command.stdout_lines 
+
+

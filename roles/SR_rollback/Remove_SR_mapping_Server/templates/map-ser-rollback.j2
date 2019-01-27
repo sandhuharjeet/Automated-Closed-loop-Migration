@@ -1,0 +1,7 @@
+router isis xr
+ address-family ipv4 unicast
+  no segment-routing prefix-sid-map advertise-local
+
+segment-routing
+  no mapping-server
+

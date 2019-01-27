@@ -1,0 +1,19 @@
+---
+
+- hosts: '{{target}}'
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  vars_files:
+  - ../defaults/main.yml
+
+  tasks:
+  - name: Rolling back SR config for Global internet(Loopback10) from P Routers
+    iosxr_config:
+      provider:
+        host: "{{ ansible_host }}"
+        username: '{{ ansible_ssh_user }}'
+        password: '{{ ansible_ssh_pass }}'
+      src: ../templates/Global_internet_loopback_SR_Rollback.j2
+      backup: yes

@@ -1,0 +1,250 @@
+Building configuration...
+!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Sun Jan 27 00:47:30 2019 by ********
+!
+hostname PE1
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group ********-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username ********
+ group root-lr
+ group ********-support
+ secret 5 $1$I56C$Bjydl8noAYPiZXguM5uBj1
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list next-hop
+ 10 permit ipv4 10.10.10.0/24 any nexthop1
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 230.0.0.0 0.255.255.255 any
+ 20 permit ipv4 234.0.0.0 0.255.255.255 any
+ 30 permit ipv4 238.0.0.0 0.255.255.255 any
+ 40 permit ipv4 239.0.0.0 0.255.255.255 any
+ 50 permit ipv4 232.0.0.0 0.255.255.255 any
+!
+class-map match-any mpls
+ match mpls experimental topmost 0 1 2 3 4 5 6 7 
+ end-class-map
+! 
+interface Loopback0
+ ipv4 address 172.16.0.11 255.255.255.255
+!
+interface Loopback20
+ ipv4 address 192.168.0.11 255.255.255.255
+!
+interface tunnel-te0
+ ipv4 unnumbered Loopback0
+ shutdown
+ autoroute announce
+ !
+ destination 172.16.0.33
+ path-option 1 dynamic
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ vrf cust1
+ ipv4 address 10.1.0.1 255.255.255.254
+!
+interface GigabitEthernet0/0/0/1
+ vrf cust1
+ ipv4 address 10.1.0.7 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.100.0.0 255.255.255.254
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.2 255.255.255.254
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+route-policy PL-iBGP-RR-OUT
+  set next-hop self
+end-policy
+!
+route-policy PL-eBGP-CE1-Out
+  set med 200
+  pass
+end-policy
+!
+route-policy PL-eBGP-CE2-Out
+  set med 100
+  pass
+end-policy
+!
+route-policy PL-eBGP-65001-IN
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis XR
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0011.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback20
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+!
+vrf cust1
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+vrf cust2
+ address-family ipv4 unicast
+  import route-target
+   2:2
+  !
+  export route-target
+   2:2
+  !
+ !
+!
+router bgp 65000
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group RR
+  remote-as 65000
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy PL-iBGP-RR-OUT out
+  !
+  address-family vpnv4 unicast
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 172.16.0.201
+  use neighbor-group RR
+ !
+ neighbor 172.16.0.202
+  use neighbor-group RR
+ !
+ vrf cust1
+  rd 1:1
+  address-family ipv4 unicast
+   redistribute connected
+  !
+  neighbor 10.1.0.0
+   remote-as 65001
+   address-family ipv4 unicast
+    route-policy PL-eBGP-65001-IN in
+    route-policy PL-eBGP-CE1-Out out
+   !
+  !
+  neighbor 10.1.0.6
+   remote-as 65001
+   address-family ipv4 unicast
+    route-policy PL-eBGP-65001-IN in
+    route-policy PL-eBGP-CE2-Out out
+   !
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls ldp
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup101
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup101
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 101
+  sensor-group-id Sgroup101 sample-interval 1000
+  destination-id DGroup101
+ !
+!
+ssh server v2
+ssh server vrf default
+end

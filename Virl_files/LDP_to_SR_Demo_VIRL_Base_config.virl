@@ -1,0 +1,4225 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<topology xmlns="http://www.cisco.com/VIRL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="0.95" simulationEngine="OPENSTACK" xsi:schemaLocation="http://www.cisco.com/VIRL https://raw.github.com/CiscoVIRL/schema/v0.95/virl.xsd">
+    <extensions>
+        <entry key="management_lxc" type="Boolean">false</entry>
+        <entry key="management_network" type="String">flat</entry>
+    </extensions>
+    <node name="CE1" type="SIMPLE" subtype="IOSv" location="114,78">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 17:59:57 UTC Thu Sep 7 2017
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip multicast-routing 
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.10.1 255.255.255.255
+ ip pim sparse-mode
+!
+interface GigabitEthernet0/0
+ ip address 172.16.1.99 255.255.255.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.1.0.0 255.255.255.254
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.1.0.4 255.255.255.254
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.1.12.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/4
+ ip address 10.0.128.33 255.255.255.252
+ ip pim sparse-mode
+ ip igmp join-group 239.10.10.10
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ neighbor 10.1.0.1 remote-as 65000
+ neighbor 10.1.0.5 remote-as 65000
+ !
+ address-family ipv4
+  network 10.1.12.0 mask 255.255.255.0
+  network 192.168.10.1 mask 255.255.255.255
+  aggregate-address 192.168.0.0 255.255.0.0
+  redistribute connected
+  neighbor 10.1.0.1 activate
+  neighbor 10.1.0.5 activate
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip pim rp-address 192.168.10.1
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+        <interface id="3" name="GigabitEthernet0/4"/>
+    </node>
+    <node name="CE2" type="SIMPLE" subtype="IOSv" location="123,376">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!
+! Last configuration change at 18:05:24 UTC Thu Sep 7 2017
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 192.168.10.2 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 172.16.1.100 255.255.255.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.1.0.6 255.255.255.254
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 40.0.0.10 255.255.255.252
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.1.0.2 255.255.255.254
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 65001
+ bgp log-neighbor-changes
+ network 10.1.12.0 mask 255.255.255.0
+ redistribute connected
+ neighbor 10.1.0.3 remote-as 65000
+ neighbor 10.1.0.7 remote-as 65000
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner incoming `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+banner login `
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************`
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+        <interface id="2" name="GigabitEthernet0/3"/>
+    </node>
+    <node name="P1" type="SIMPLE" subtype="IOS XRv" location="264,119" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Tue Sep  5 02:06:33 2017 by cisco
+!
+hostname P1
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$Wo/1$1u19djvANqZlH.iaKup.F.
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.1 255.255.255.255
+!
+interface Loopback10
+ ipv4 address 144.228.242.10 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:10/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+ load-interval 30
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.3 255.255.255.254
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.134 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.6 255.255.255.254
+!
+interface GigabitEthernet0/0/0/3
+ shutdown
+!
+interface GigabitEthernet0/0/0/4
+ ipv4 address 10.10.0.16 255.255.255.254
+!
+interface GigabitEthernet0/0/0/5
+ ipv4 address 10.10.0.20 255.255.255.254
+!
+interface GigabitEthernet0/0/0/6
+ ipv4 address 10.10.0.109 255.255.255.252
+!
+interface GigabitEthernet0/0/0/7
+ ipv4 address 10.10.0.106 255.255.255.252
+!
+interface GigabitEthernet0/0/0/8
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.10/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  10.94.140.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+  10.122.53.0/24 GigabitEthernet0/0/0/6 172.16.1.254
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0001.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback10
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  address-family ipv4 unicast
+   metric 1655555
+  !
+ !
+ interface GigabitEthernet0/0/0/5
+  address-family ipv4 unicast
+   metric 1655555
+  !
+ !
+ interface GigabitEthernet0/0/0/6
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/7
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.10
+ bgp update-delay 300
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group sl-multicast-unicast-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   maximum-prefix 1000000 75 warning-only
+  !
+  address-family ipv4 multicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ neighbor-group multicast-unicast-client-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family ipv4 multicast
+   route-reflector-client
+  !
+  address-family ipv6 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 144.228.242.20
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.30
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.200
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.204
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls ldp
+ router-id 172.16.0.1
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+ interface GigabitEthernet0/0/0/6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup1
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup1
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 1
+  sensor-group-id Sgroup1 sample-interval 1000
+  destination-id DGroup1
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.11</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+        <interface id="5" name="GigabitEthernet0/0/0/5"/>
+        <interface id="6" name="GigabitEthernet0/0/0/6"/>
+        <interface id="7" name="GigabitEthernet0/0/0/7"/>
+        <interface id="8" name="GigabitEthernet0/0/0/8"/>
+    </node>
+    <node name="P2" type="SIMPLE" subtype="IOS XRv" location="257,356" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:10 2017 by cisco
+!
+hostname P2
+group load-interval
+ interface 'GigabitEthernet*'
+  load-interval 30
+ !
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$xMWx$32ydaCMhwhIHwhnt1QG8p/
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.2 255.255.255.255
+!
+interface Loopback10
+ ipv4 address 144.228.242.20 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:20/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.7 255.255.255.254
+ load-interval 30
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.154 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.18 255.255.255.254
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.22 255.255.255.254
+!
+interface GigabitEthernet0/0/0/4
+ ipv4 address 10.10.0.5 255.255.255.254
+!
+interface GigabitEthernet0/0/0/5
+ ipv4 address 10.10.0.146 255.255.255.252
+!
+interface GigabitEthernet0/0/0/6
+ ipv4 address 10.10.0.101 255.255.255.252
+!
+interface GigabitEthernet0/0/0/7
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.20/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0002.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback10
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+   metric 1655555
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+   metric 1655555
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/5
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/6
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.20
+ bgp update-delay 300
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group sl-multicast-unicast-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   maximum-prefix 1000000 75 warning-only
+  !
+  address-family ipv4 multicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ neighbor-group multicast-unicast-client-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family ipv4 multicast
+   route-reflector-client
+  !
+  address-family ipv6 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 144.228.242.10
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.40
+  use neighbor-group sl-multicast-unicast-v4-v6
+ !
+ neighbor 144.228.242.100
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.205
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+ interface GigabitEthernet0/0/0/5
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+ interface GigabitEthernet0/0/0/5
+ !
+!
+mpls ldp
+ router-id 172.16.0.2
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+ interface GigabitEthernet0/0/0/5
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup2
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup2
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 2
+  sensor-group-id Sgroup2 sample-interval 1000
+  destination-id DGroup2
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.12</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+        <interface id="5" name="GigabitEthernet0/0/0/5"/>
+        <interface id="6" name="GigabitEthernet0/0/0/6"/>
+        <interface id="7" name="GigabitEthernet0/0/0/7"/>
+    </node>
+    <node name="RR1" type="SIMPLE" subtype="IOS XRv" location="234,231" vmImage="IOS XRv-6.2.1" vmFlavor="IOS XRv">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration 6.2.1
+!! Last configuration change at Tue Sep  5 00:59:51 2017 by CVAC
+!
+hostname RR1
+interface Loopback0
+ ipv4 address 172.16.0.201 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.17 255.255.255.254
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.14 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.19 255.255.255.254
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0201.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 65000
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group iBGP-Clients
+  remote-as 65000
+  cluster-id 172.16.0.201
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+  address-family ipv4 mdt
+   route-reflector-client
+  !
+ !
+ neighbor 172.16.0.11
+  use neighbor-group iBGP-Clients
+ !
+ neighbor 172.16.0.22
+  use neighbor-group iBGP-Clients
+ !
+ neighbor 172.16.0.33
+  use neighbor-group iBGP-Clients
+ !
+ neighbor 172.16.0.44
+  use neighbor-group iBGP-Clients
+ !
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="RR2" type="SIMPLE" subtype="IOS XRv" location="317,232" vmImage="IOS XRv-6.2.1" vmFlavor="IOS XRv">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration 6.2.1
+!! Last configuration change at Tue Sep  5 00:59:26 2017 by CVAC
+!
+hostname RR2
+interface Loopback0
+ ipv4 address 172.16.0.202 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.15 255.255.255.254
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.21 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.23 255.255.255.254
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0202.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 65000
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group iBGP-Clients
+  remote-as 65000
+  cluster-id 172.16.0.202
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family vpnv4 unicast
+   route-reflector-client
+  !
+  address-family ipv4 mdt
+   route-reflector-client
+  !
+ !
+ neighbor 172.16.0.11
+  use neighbor-group iBGP-Clients
+ !
+ neighbor 172.16.0.22
+  use neighbor-group iBGP-Clients
+ !
+ neighbor 172.16.0.33
+  use neighbor-group iBGP-Clients
+ !
+ neighbor 172.16.0.44
+  use neighbor-group iBGP-Clients
+ !
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="CE3" type="SIMPLE" subtype="IOS XRv" location="812,138" vmImage="IOS XRv-6.2.1" vmFlavor="IOS XRv">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration 6.2.1
+!! Last configuration change at Tue Sep  5 01:04:39 2017 by CVAC
+!
+hostname BR3
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+interface Loopback0
+ ipv4 address 192.168.20.3 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.2.0.3 255.255.255.0
+ load-interval 30
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.2.34.3 255.255.255.0
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.0.128.45 255.255.255.252
+ load-interval 30
+!
+route-policy PL-AS65000
+  pass
+end-policy
+!
+router bgp 65002
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+  network 10.2.34.0/24
+  network 192.168.20.3/32
+  redistribute connected
+ !
+ neighbor 10.2.0.33
+  remote-as 65000
+  address-family ipv4 unicast
+   route-policy PL-AS65000 in
+   route-policy PL-AS65000 out
+  !
+ !
+ neighbor 10.2.0.44
+  remote-as 65000
+  address-family ipv4 unicast
+   route-policy PL-AS65000 in
+   route-policy PL-AS65000 out
+  !
+ !
+!
+multicast-routing
+ address-family ipv4
+  interface Loopback0
+   enable
+  !
+  interface GigabitEthernet0/0/0/0
+   enable
+  !
+  interface GigabitEthernet0/0/0/2
+   enable
+  !
+ !
+!
+router igmp
+ interface GigabitEthernet0/0/0/0
+  join-group 239.1.1.1
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+  maximum groups-per-interface 6000
+  version 2
+  router enable
+ !
+!
+router pim
+ address-family ipv4
+  rp-address 192.168.10.1
+ !
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="CE4" type="SIMPLE" subtype="IOS XRv" location="813,318" vmImage="IOS XRv-6.2.1" vmFlavor="IOS XRv">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration 6.2.1
+!! Last configuration change at Tue Sep  5 01:01:36 2017 by CVAC
+!
+hostname BR4
+interface Loopback0
+ ipv4 address 192.168.20.4 255.255.255.255
+!
+interface MgmtEth0/0/CPU0/0
+ shutdown
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.2.0.4 255.255.255.0
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 40.0.0.14 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ shutdown
+!
+route-policy PL-AS65000
+  pass
+end-policy
+!
+router bgp 65002
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+  redistribute connected
+ !
+ neighbor 10.2.0.33
+  remote-as 65000
+  shutdown
+  address-family ipv4 unicast
+   route-policy PL-AS65000 in
+   route-policy PL-AS65000 out
+  !
+ !
+ neighbor 10.2.0.44
+  remote-as 65000
+  address-family ipv4 unicast
+   route-policy PL-AS65000 in
+   route-policy PL-AS65000 out
+  !
+ !
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="sw-1" type="SIMPLE" subtype="Unmanaged Switch" location="808,237">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+        </extensions>
+        <interface id="0" name="link1"/>
+        <interface id="1" name="link2"/>
+        <interface id="2" name="link3"/>
+        <interface id="3" name="link4"/>
+    </node>
+    <node name="PE1" type="SIMPLE" subtype="IOS XRv" location="174,134" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:21 2017 by cisco
+!
+hostname PE1
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$I56C$Bjydl8noAYPiZXguM5uBj1
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list next-hop
+ 10 permit ipv4 10.10.10.0/24 any nexthop1
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 230.0.0.0 0.255.255.255 any
+ 20 permit ipv4 234.0.0.0 0.255.255.255 any
+ 30 permit ipv4 238.0.0.0 0.255.255.255 any
+ 40 permit ipv4 239.0.0.0 0.255.255.255 any
+ 50 permit ipv4 232.0.0.0 0.255.255.255 any
+!
+class-map match-any mpls
+ match mpls experimental topmost 0 1 2 3 4 5 6 7 
+ end-class-map
+! 
+interface Loopback0
+ ipv4 address 172.16.0.11 255.255.255.255
+!
+interface Loopback20
+ ipv4 address 192.168.0.11 255.255.255.255
+!
+interface tunnel-te0
+ ipv4 unnumbered Loopback0
+ shutdown
+ autoroute announce
+ !
+ destination 172.16.0.33
+ path-option 1 dynamic
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ vrf cust1
+ ipv4 address 10.1.0.1 255.255.255.254
+!
+interface GigabitEthernet0/0/0/1
+ vrf cust1
+ ipv4 address 10.1.0.7 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.100.0.0 255.255.255.254
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.2 255.255.255.254
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+route-policy PL-iBGP-RR-OUT
+  set next-hop self
+end-policy
+!
+route-policy PL-eBGP-CE1-Out
+  set med 200
+  pass
+end-policy
+!
+route-policy PL-eBGP-CE2-Out
+  set med 100
+  pass
+end-policy
+!
+route-policy PL-eBGP-65001-IN
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis XR
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0011.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback20
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+!
+vrf cust1
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+vrf cust2
+ address-family ipv4 unicast
+  import route-target
+   2:2
+  !
+  export route-target
+   2:2
+  !
+ !
+!
+router bgp 65000
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group RR
+  remote-as 65000
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy PL-iBGP-RR-OUT out
+  !
+  address-family vpnv4 unicast
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 172.16.0.201
+  use neighbor-group RR
+ !
+ neighbor 172.16.0.202
+  use neighbor-group RR
+ !
+ vrf cust1
+  rd 1:1
+  address-family ipv4 unicast
+   redistribute connected
+  !
+  neighbor 10.1.0.0
+   remote-as 65001
+   address-family ipv4 unicast
+    route-policy PL-eBGP-65001-IN in
+    route-policy PL-eBGP-CE1-Out out
+   !
+  !
+  neighbor 10.1.0.6
+   remote-as 65001
+   address-family ipv4 unicast
+    route-policy PL-eBGP-65001-IN in
+    route-policy PL-eBGP-CE2-Out out
+   !
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+mpls ldp
+ router-id 172.16.0.11
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup101
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup101
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 101
+  sensor-group-id Sgroup101 sample-interval 1000
+  destination-id DGroup101
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.101</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+    </node>
+    <node name="PE2" type="SIMPLE" subtype="IOS XRv" location="184,321" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:21 2017 by cisco
+!
+hostname PE2
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$o7YQ$sKDzfvnlM9kPIvqmjrk3l1
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 230.0.0.0 0.255.255.255 any
+ 20 permit ipv4 234.0.0.0 0.255.255.255 any
+ 30 permit ipv4 238.0.0.0 0.255.255.255 any
+ 40 permit ipv4 239.0.0.0 0.255.255.255 any
+ 50 permit ipv4 232.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.22 255.255.255.255
+!
+interface Loopback20
+ ipv4 address 192.168.0.22 255.255.255.255
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.100.0.1 255.255.255.254
+!
+interface GigabitEthernet0/0/0/1
+ vrf cust1
+ ipv4 address 10.1.0.5 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.4 255.255.255.254
+!
+interface GigabitEthernet0/0/0/3
+ vrf cust1
+ ipv4 address 10.1.0.3 255.255.255.254
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+route-policy PL-iBGP-RR-OUT
+  set next-hop self
+end-policy
+!
+route-policy PL-eBGP-CE1-Out
+  set med 200
+  pass
+end-policy
+!
+route-policy PL-eBGP-CE2-Out
+  set med 100
+  pass
+end-policy
+!
+route-policy PL-eBGP-65001-IN
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis XR
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0022.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback20
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+!
+vrf cust1
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+router bgp 65000
+ attribute-filter group ATOMIC_AGGR
+  attribute ATOMIC-AGGREGATE discard
+  attribute AGGREGATOR discard
+ !
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group RR
+  remote-as 65000
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy PL-iBGP-RR-OUT out
+  !
+  address-family vpnv4 unicast
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 172.16.0.201
+  use neighbor-group RR
+  update in filtering
+   attribute-filter group ATOMIC_AGGR
+  !
+ !
+ neighbor 172.16.0.202
+  use neighbor-group RR
+  update in filtering
+   attribute-filter group ATOMIC_AGGR
+  !
+ !
+ vrf cust1
+  rd 1:1
+  address-family ipv4 unicast
+  !
+  neighbor 10.1.0.2
+   remote-as 65001
+   address-family ipv4 unicast
+    route-policy PL-eBGP-65001-IN in
+    route-policy PL-eBGP-CE2-Out out
+   !
+  !
+  neighbor 10.1.0.4
+   remote-as 65001
+   update in filtering
+    attribute-filter group ATOMIC_AGGR
+   !
+   address-family ipv4 unicast
+    route-policy PL-eBGP-65001-IN in
+    route-policy PL-eBGP-CE1-Out out
+   !
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+mpls ldp
+ router-id 172.16.0.22
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup102
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup102
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 102
+  sensor-group-id Sgroup102 sample-interval 1000
+  destination-id DGroup102
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.102</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+    </node>
+    <node name="PE3" type="SIMPLE" subtype="IOS XRv" location="712,147" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:26 2017 by cisco
+!
+hostname PE3
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+logging console disable
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$jS/t$bJXzxyjTZtVYHBSRIkm3D/
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.33 255.255.255.255
+!
+interface Loopback20
+ ipv4 address 192.168.0.33 255.255.255.255
+!
+interface tunnel-te0
+ ipv4 unnumbered Loopback0
+ shutdown
+ autoroute metric 10
+ autoroute announce
+ !
+ destination 172.16.0.11
+ path-option 1 dynamic
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.118 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.100.0.12 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ vrf cust1
+ ipv4 address 10.2.0.33 255.255.255.0
+ load-interval 30
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+route-policy PL-iBGP-RR-OUT
+  set next-hop self
+end-policy
+!
+route-policy PL-eBGP-BR3-out
+  set med 200
+  pass
+end-policy
+!
+route-policy PL-eBGP-BR4-out
+  set med 100
+  pass
+end-policy
+!
+route-policy PL-eBGP-650020-in
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0033.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback20
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+!
+vrf cust1
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+router bgp 65000
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group RR
+  remote-as 65000
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy PL-iBGP-RR-OUT out
+  !
+  address-family vpnv4 unicast
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 172.16.0.201
+  use neighbor-group RR
+ !
+ neighbor 172.16.0.202
+  use neighbor-group RR
+ !
+ vrf cust1
+  rd 1:1
+  address-family ipv4 unicast
+   redistribute connected
+  !
+  neighbor 10.2.0.3
+   remote-as 65002
+   address-family ipv4 unicast
+    route-policy PL-eBGP-650020-in in
+    route-policy PL-eBGP-BR3-out out
+   !
+  !
+  neighbor 10.2.0.4
+   remote-as 65002
+   address-family ipv4 unicast
+    route-policy PL-eBGP-650020-in in
+    route-policy PL-eBGP-BR4-out out
+   !
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+mpls ldp
+ router-id 172.16.0.33
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup103
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup103
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 103
+  sensor-group-id Sgroup103 sample-interval 1000
+  destination-id DGroup103
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.103</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="PE4" type="SIMPLE" subtype="IOS XRv" location="714,310" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:30 2017 by cisco
+!
+hostname PE4
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+logging console disable
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$3yq3$8DgJfC9dxGFbs775pDsd/1
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list ssm-range
+ 10 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.44 255.255.255.255
+!
+interface Loopback20
+ ipv4 address 192.168.0.44 255.255.255.255
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.142 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.100.0.13 255.255.255.254
+!
+interface GigabitEthernet0/0/0/2
+ vrf cust1
+ ipv4 address 10.2.0.44 255.255.255.0
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.126 255.255.255.252
+!
+interface GigabitEthernet0/0/0/4
+ shutdown
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+route-policy PL-iBGP-RR-OUT
+  set next-hop self
+end-policy
+!
+route-policy PL-eBGP-BR3-out
+  set med 200
+  pass
+end-policy
+!
+route-policy PL-eBGP-BR4-out
+  set med 100
+  pass
+end-policy
+!
+route-policy PL-eBGP-650020-in
+  pass
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0044.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback20
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+!
+vrf cust1
+ address-family ipv4 unicast
+  import route-target
+   1:1
+  !
+  export route-target
+   1:1
+  !
+ !
+!
+router bgp 65000
+ address-family ipv4 unicast
+  additional-paths receive
+  additional-paths send
+ !
+ address-family vpnv4 unicast
+ !
+ address-family ipv4 mdt
+ !
+ neighbor-group RR
+  remote-as 65000
+  update-source Loopback0
+  address-family ipv4 unicast
+   route-policy PL-iBGP-RR-OUT out
+  !
+  address-family vpnv4 unicast
+  !
+  address-family ipv4 mdt
+  !
+ !
+ neighbor 172.16.0.201
+  use neighbor-group RR
+ !
+ neighbor 172.16.0.202
+  use neighbor-group RR
+ !
+ vrf cust1
+  rd 1:1
+  address-family ipv4 unicast
+  !
+  neighbor 10.2.0.3
+   remote-as 65002
+   address-family ipv4 unicast
+    route-policy PL-eBGP-650020-in in
+    route-policy PL-eBGP-BR3-out out
+   !
+  !
+  neighbor 10.2.0.4
+   remote-as 65002
+   address-family ipv4 unicast
+    route-policy PL-eBGP-650020-in in
+    route-policy PL-eBGP-BR4-out out
+   !
+  !
+ !
+!
+rsvp
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+mpls traffic-eng
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+!
+mpls ldp
+ router-id 172.16.0.44
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup104
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup104
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 104
+  sensor-group-id Sgroup104 sample-interval 1000
+  destination-id DGroup104
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.104</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+    </node>
+    <node name="GW2" type="SIMPLE" subtype="IOS XRv" location="537,25" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:21 2017 by cisco
+!
+hostname GW2
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+logging console disable
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$njyg$E5tyzIGo2xbUhrxs.h9G51
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 144.228.242.200 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:200/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.105 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.122 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 102.1.1.2 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.200/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1442.282.4220.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  spf-interval maximum-wait 2000 initial-wait 100 secondary-wait 100
+  distance 15
+ !
+ address-family ipv6 unicast
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.200
+ bgp update-delay 300
+ bgp log neighbor changes detail
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group RR-client-v4-v6
+  remote-as 1239
+  description IPv4/IPv6 peer to Core router
+  update-source Loopback0
+  address-family ipv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   next-hop-self
+  !
+  address-family ipv6 unicast
+   next-hop-self
+  !
+ !
+ neighbor 102.1.1.1
+  remote-as 102
+  update-source GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+  !
+ !
+ neighbor 144.228.242.10
+  use neighbor-group RR-client-v4-v6
+ !
+ neighbor 144.228.242.30
+  use neighbor-group RR-client-v4-v6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.202</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="GW1" type="SIMPLE" subtype="IOS XRv" location="311,460" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="Auto-generate config" type="Boolean">false</entry>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:15 2017 by cisco
+!
+hostname GW1
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$j6Oz$OTT9H1T5Fzycsvf2yD9eN/
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 144.228.242.100 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:100/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.102 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 201.1.1.2 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.138 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.100/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy local-pref
+  set local-preference 200
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1442.282.4210.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  spf-interval maximum-wait 2000 initial-wait 100 secondary-wait 100
+  distance 15
+ !
+ address-family ipv6 unicast
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+   metric 2000
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.100
+ bgp update-delay 300
+ bgp log neighbor changes detail
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group RR-client-v4-v6
+  remote-as 1239
+  description IPv4/IPv6 peer to Core router
+  update-source Loopback0
+  address-family ipv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   next-hop-self
+  !
+  address-family ipv6 unicast
+   next-hop-self
+  !
+ !
+ neighbor 201.1.1.1
+  remote-as 201
+  update-source GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+  !
+ !
+ neighbor 144.228.242.20
+  use neighbor-group RR-client-v4-v6
+  address-family ipv4 unicast
+   route-policy local-pref in
+  !
+ !
+ neighbor 144.228.242.40
+  use neighbor-group RR-client-v4-v6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.201</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+    </node>
+    <node name="drone-3" type="SIMPLE" subtype="lxc-ostinato-drone" location="53,226">
+        <extensions>
+            <entry key="static_ip" type="String">172.16.1.63</entry>
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-ostinato-drone-3
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.23.10
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.128.34 netmask 255.255.255.252
+    ifconfig eth2 up 40.0.0.9 netmask 255.255.255.252
+    route add -net 40.0.0.0/16 gw 40.0.0.10 dev eth2
+    route add -net 10.0.0.0/16 gw 10.0.128.33 dev eth1
+    route add -net 192.168.0.0/27 gw 10.0.128.33 dev eth1
+    route add -net 172.16.2.0/24 gw 172.16.1.254 dev eth0
+    exit 0
+</entry>
+        </extensions>
+        <interface id="0" name="eth1" ipv4="10.0.128.34" netPrefixLenV4="30"/>
+        <interface id="1" name="eth2"/>
+    </node>
+    <node name="drone-4" type="SIMPLE" subtype="lxc-ostinato-drone" location="886,224">
+        <extensions>
+            <entry key="static_ip" type="String">172.16.1.64</entry>
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-ostinato-drone-4
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.23.10
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.128.46 netmask 255.255.255.252
+    ifconfig eth2 up 40.0.0.13 netmask 255.255.255.252
+    route add -net 40.0.0.0/16 gw 40.0.0.14 dev eth2
+    route add -net 10.0.0.0/16 gw 10.0.128.45 dev eth1
+    route add -net 192.168.0.0/27 gw 10.0.128.45 dev eth1
+    route add -net 172.16.2.0/24 gw 172.16.1.254 dev eth0
+    exit 0
+</entry>
+        </extensions>
+        <interface id="0" name="eth1" ipv4="10.0.128.46" netPrefixLenV4="30"/>
+        <interface id="1" name="eth2"/>
+    </node>
+    <node name="drone-1" type="SIMPLE" subtype="lxc-ostinato-drone" location="54,457">
+        <extensions>
+            <entry key="static_ip" type="String">172.16.1.71</entry>
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-ostinato-drone-1
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.23.10
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.0.5 netmask 255.255.255.252
+    route add -net 10.0.0.0/16 gw 10.0.0.6 dev eth1
+    route add -net 192.168.0.0/27 gw 10.0.0.6 dev eth1
+    route add -net 172.16.2.0/24 gw 172.16.1.254 dev eth0
+    exit 0
+</entry>
+        </extensions>
+        <interface id="0" name="eth1"/>
+        <interface id="1" name="eth2"/>
+    </node>
+    <node name="drone-2" type="SIMPLE" subtype="lxc-ostinato-drone" location="749,17">
+        <extensions>
+            <entry key="static_ip" type="String">172.16.1.62</entry>
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-ostinato-drone-2
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.23.10
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.128.25 netmask 255.255.255.252
+    route add -net 10.0.0.0/16 gw 10.0.128.26 dev eth1
+    route add -net 192.168.0.0/27 gw 10.0.128.26 dev eth1
+    route add -net 172.16.2.0/24 gw 172.16.1.254 dev eth0
+    exit 0
+</entry>
+        </extensions>
+        <interface id="0" name="eth1"/>
+    </node>
+    <node name="P3" type="SIMPLE" subtype="IOS XRv" location="615,116" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:10 2017 by cisco
+!
+hostname P3
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$3Ywm$JDa.4DMji4XPdT0i0eR/C0
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.3 255.255.255.255
+!
+interface Loopback10
+ ipv4 address 144.228.242.30 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:30/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.113 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.110 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.117 255.255.255.252
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.121 255.255.255.252
+!
+interface GigabitEthernet0/0/0/4
+ ipv4 address 10.10.0.125 255.255.255.252
+!
+interface GigabitEthernet0/0/0/5
+ ipv4 address 10.10.0.129 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.30/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.0003.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback10
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/5
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.30
+ bgp update-delay 300
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group sl-multicast-unicast-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   maximum-prefix 1000000 75 warning-only
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   next-hop-self
+  !
+  address-family ipv6 unicast
+  !
+ !
+ neighbor-group multicast-unicast-client-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   route-reflector-client
+  !
+  address-family ipv4 multicast
+   route-reflector-client
+  !
+  address-family ipv6 unicast
+   route-reflector-client
+  !
+ !
+ neighbor 144.228.242.10
+  use neighbor-group sl-multicast-unicast-v4-v6
+ !
+ neighbor 144.228.242.40
+  use neighbor-group sl-multicast-unicast-v4-v6
+ !
+ neighbor 144.228.242.200
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.204
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+!
+mpls ldp
+ router-id 172.16.0.3
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/4
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup3
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup3
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 3
+  sensor-group-id Sgroup3 sample-interval 1000
+  destination-id DGroup3
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.13</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+        <interface id="5" name="GigabitEthernet0/0/0/5"/>
+    </node>
+    <node name="P4" type="SIMPLE" subtype="IOS XRv" location="622,356" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:09 2017 by cisco
+!
+hostname P4
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$cZuV$9N.c9KePnJiPmPA0fw2wg0
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list mpls-ldp
+ 10 permit ipv4 172.16.0.0 0.0.0.255 any
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 172.16.0.4 255.255.255.255
+!
+interface Loopback10
+ ipv4 address 144.228.242.40 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:40/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.137 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.114 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.145 255.255.255.252
+!
+interface GigabitEthernet0/0/0/3
+ ipv4 address 10.10.0.141 255.255.255.252
+!
+interface GigabitEthernet0/0/0/4
+ ipv4 address 10.10.0.149 255.255.255.252
+!
+interface GigabitEthernet0/0/0/5
+ ipv4 address 103.1.1.2 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.40/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1721.1600.004.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  mpls traffic-eng level-1
+  mpls traffic-eng router-id Loopback0
+  mpls traffic-eng multicast-intact
+ !
+ interface Loopback0
+  address-family ipv4 unicast
+  !
+ !
+ interface Loopback10
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/3
+  address-family ipv4 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/4
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.40
+ bgp update-delay 300
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group sl-multicast-unicast-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   maximum-prefix 1000000 75 warning-only
+  !
+  address-family ipv4 multicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ neighbor-group multicast-unicast-client-v4-v6
+  remote-as 1239
+  update-source Loopback10
+  address-family ipv4 unicast
+   route-reflector-client
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   route-reflector-client
+   next-hop-self
+  !
+  address-family ipv6 unicast
+   route-reflector-client
+   next-hop-self
+  !
+ !
+ neighbor 103.1.1.1
+  remote-as 103
+  update-source GigabitEthernet0/0/0/5
+  address-family ipv4 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+  !
+ !
+ neighbor 144.228.242.20
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.30
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.100
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+ neighbor 144.228.242.205
+  use neighbor-group multicast-unicast-client-v4-v6
+ !
+!
+mpls ldp
+ router-id 172.16.0.4
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+ !
+ interface GigabitEthernet0/0/0/2
+ !
+ interface GigabitEthernet0/0/0/3
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+telemetry model-driven
+ destination-group DGroup4
+  address-family ipv4 172.16.2.200 port 5432
+   encoding self-describing-gpb
+   protocol tcp
+  !
+ !
+ sensor-group Sgroup4
+  sensor-path Cisco-IOS-XR-infra-statsd-oper:infra-statistics/interfaces/interface/latest/data-rate
+ !
+ subscription 4
+  sensor-group-id Sgroup4 sample-interval 1000
+  destination-id DGroup4
+ !
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.14</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+        <interface id="2" name="GigabitEthernet0/0/0/2"/>
+        <interface id="3" name="GigabitEthernet0/0/0/3"/>
+        <interface id="4" name="GigabitEthernet0/0/0/4"/>
+        <interface id="5" name="GigabitEthernet0/0/0/5"/>
+    </node>
+    <node name="DIA-1" type="SIMPLE" subtype="IOSv" location="630,21">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 18:04:15 UTC Thu Sep 7 2017
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DIA-1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip multicast-routing 
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 150.1.1.1 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 172.16.1.101 255.255.255.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 102.1.1.1 255.255.255.0
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.0.128.26 255.255.255.252
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 102
+ bgp log-neighbor-changes
+ redistribute connected
+ neighbor 102.1.1.2 remote-as 1239
+ neighbor 102.1.1.2 update-source GigabitEthernet0/1
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+banner incoming `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+banner login `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="DIA-2" type="SIMPLE" subtype="IOSv" location="185,459">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 18:02:27 UTC Thu Sep 7 2017
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DIA-2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip multicast-routing 
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 150.2.2.2 255.255.255.255
+ ip pim sparse-mode
+!
+interface GigabitEthernet0/0
+ ip address 172.16.1.102 255.255.255.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 10.0.0.6 255.255.255.252
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 201.1.1.1 255.255.255.252
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 201
+ bgp log-neighbor-changes
+ redistribute connected
+ neighbor 201.1.1.2 remote-as 1239
+ neighbor 201.1.1.2 update-source GigabitEthernet0/2
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+banner incoming `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+banner login `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="GW5" type="SIMPLE" subtype="IOS XRv" location="554,462" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:30 2017 by cisco
+!
+hostname GW5
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+logging console disable
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$ovma$pJpxvTgvi/.5ItQcGBdNP1
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 144.228.242.205 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:205/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.153 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.150 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.205/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1442.282.4225.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  spf-interval maximum-wait 2000 initial-wait 100 secondary-wait 100
+  distance 15
+ !
+ address-family ipv6 unicast
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.205
+ bgp update-delay 300
+ bgp log neighbor changes detail
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group RR-client-v4-v6
+  remote-as 1239
+  description IPv4/IPv6 peer to Core router
+  update-source Loopback0
+  address-family ipv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   next-hop-self
+  !
+  address-family ipv6 unicast
+   next-hop-self
+  !
+ !
+ neighbor 144.228.242.20
+  use neighbor-group RR-client-v4-v6
+ !
+ neighbor 144.228.242.40
+  use neighbor-group RR-client-v4-v6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.205</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+    </node>
+    <node name="GW4" type="SIMPLE" subtype="IOS XRv" location="333,25" vmImage="IOS XRv64-6.2.1 [a80a20a6-ec88-4113-a7ca-4df2f3652cc6]" vmFlavor="IOS XRv 9000" excludeFromLaunch="true">
+        <extensions>
+            <entry key="config" type="String">!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Thu Sep  7 18:26:30 2017 by cisco
+!
+hostname GW4
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group cisco-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username cisco
+ group root-lr
+ group cisco-support
+ secret 5 $1$aS/9$7vQp8RIWtBWw8Uvgd2Wky/
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 144.228.242.204 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:204/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.133 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 10.10.0.130 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.204/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1442.282.4224.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  spf-interval maximum-wait 2000 initial-wait 100 secondary-wait 100
+  distance 15
+ !
+ address-family ipv6 unicast
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.204
+ bgp update-delay 300
+ bgp log neighbor changes detail
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group RR-client-v4-v6
+  remote-as 1239
+  description IPv4/IPv6 peer to Core router
+  update-source Loopback0
+  address-family ipv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   next-hop-self
+  !
+  address-family ipv6 unicast
+   next-hop-self
+  !
+ !
+ neighbor 144.228.242.10
+  use neighbor-group RR-client-v4-v6
+ !
+ neighbor 144.228.242.30
+  use neighbor-group RR-client-v4-v6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+ssh server v2
+ssh server vrf default
+end</entry>
+            <entry key="static_ip" type="String">172.16.1.204</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/0/0/0"/>
+        <interface id="1" name="GigabitEthernet0/0/0/1"/>
+    </node>
+    <node name="DIA-3" type="SIMPLE" subtype="IOSv" location="691,378">
+        <extensions>
+            <entry key="config" type="String">!
+! Last configuration change at 18:02:09 UTC Thu Sep 7 2017
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DIA-3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip multicast-routing 
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 150.3.3.3 255.255.255.255
+ ip pim sparse-mode
+!
+interface GigabitEthernet0/0
+ ip address 172.16.1.103 255.255.255.0
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 103.1.1.1 255.255.255.252
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ ip address 10.0.0.10 255.255.255.252
+ ip pim sparse-mode
+ duplex auto
+ speed auto
+ media-type rj45
+!
+router bgp 103
+ bgp log-neighbor-changes
+ redistribute connected
+ neighbor 103.1.1.2 remote-as 1239
+ neighbor 103.1.1.2 update-source GigabitEthernet0/1
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+control-plane
+!
+banner exec `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+banner incoming `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+banner login `
+**************************************************************************
+* IOSv - Cisco Systems Confidential                                      *
+*                                                                        *
+* Supplemental End User License Restrictions                             *
+*                                                                        *
+* This IOSv software is provided AS-IS without warranty of any kind.     *
+* Under no circumstances may this software be used separate from         *
+* the Cisco Modeling Labs Software that this software was provided       *
+*  with, or deployed or used as part of a production environment.        *
+*                                                                        *
+* By using the software, you agree to abide by the terms and             *
+* conditions of the Cisco End User License Agreement at                  *
+* http://www.cisco.com/go/eula.                                          *
+*                                                                        *
+* Unauthorized use or distribution of this software is expressly         *
+* prohibited.                                                            *
+**************************************************************************
+`
+!
+line con 0
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end</entry>
+        </extensions>
+        <interface id="0" name="GigabitEthernet0/1"/>
+        <interface id="1" name="GigabitEthernet0/2"/>
+    </node>
+    <node name="drone-5" type="SIMPLE" subtype="lxc-ostinato-drone" location="773,391">
+        <extensions>
+            <entry key="static_ip" type="String">172.16.1.72</entry>
+            <entry key="config" type="String">#cloud-config
+bootcmd:
+- ln -s -t /etc/rc.d /etc/rc.local
+hostname: lxc-ostinato-drone-5
+manage_etc_hosts: true
+runcmd:
+- systemctl start rc-local
+- sed -i '/^\s*PasswordAuthentication\s\+no/d' /etc/ssh/sshd_config
+- echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+- service ssh restart
+- service sshd restart
+users:
+- default
+- gecos: User configured by VIRL Configuration Engine 0.23.10
+  lock-passwd: false
+  name: cisco
+  plain-text-passwd: cisco
+  shell: /bin/bash
+  ssh-authorized-keys:
+  - VIRL-USER-SSH-PUBLIC-KEY
+  sudo: ALL=(ALL) ALL
+write_files:
+- path: /etc/systemd/system/dhclient@.service
+  content: |
+    [Unit]
+    Description=Run dhclient on %i interface
+    After=network.target
+    [Service]
+    Type=oneshot
+    ExecStart=/sbin/dhclient %i -pf /var/run/dhclient.%i.pid -lf /var/lib/dhclient/dhclient.%i.lease
+    RemainAfterExit=yes
+  owner: root:root
+  permissions: '0644'
+- path: /etc/rc.local
+  owner: root:root
+  permissions: '0755'
+  content: |-
+    #!/bin/sh
+    ifconfig eth1 up 10.0.0.9 netmask 255.255.255.252
+    route add -net 10.0.0.0/16 gw 10.0.0.10 dev eth1
+    route add -net 192.168.0.0/27 gw 10.0.0.6 dev eth1
+    route add -net 172.16.2.0/24 gw 172.16.1.254 dev eth0
+    exit 0
+</entry>
+        </extensions>
+        <interface id="0" name="eth1"/>
+        <interface id="1" name="eth2"/>
+    </node>
+    <annotations>
+        <ellipse x="81" y="91" width="707" height="278" fill-opacity="0.77" fill="FFFF99" stroke-width="2" stroke-pattern="dot"/>
+        <ellipse x="244" y="-19" width="386" height="532" fill="CCFFCC" stroke-width="2" stroke-pattern="dot"/>
+        <ellipse x="210" y="53" width="456" height="365" fill="FFCC66" stroke-width="2" stroke-pattern="dot"/>
+        <text x="422" y="218" font-family="monospace" font-size="18" text-anchor="middle" bold="true">Core</text>
+        <text x="353" y="13" font-family="monospace" font-size="18" bold="true">Global Internet</text>
+        <text x="92" y="216" font-family="monospace" font-size="18" bold="true">L3VPN</text>
+        <text x="718" y="218" font-family="monospace" font-size="18" bold="true">L3VPN</text>
+        <text x="365" y="453" font-family="monospace" font-size="18" bold="true">Global Internet</text>
+    </annotations>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[1]" src="/virl:topology/virl:node[3]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[5]" src="/virl:topology/virl:node[5]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[1]" src="/virl:topology/virl:node[5]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[6]/virl:interface[2]" src="/virl:topology/virl:node[3]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[5]/virl:interface[3]" src="/virl:topology/virl:node[4]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[4]" src="/virl:topology/virl:node[6]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[3]" src="/virl:topology/virl:node[7]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[4]" src="/virl:topology/virl:node[8]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[10]/virl:interface[1]" src="/virl:topology/virl:node[1]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[2]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[2]" src="/virl:topology/virl:node[1]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[1]" src="/virl:topology/virl:node[10]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[5]" src="/virl:topology/virl:node[11]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[13]/virl:interface[2]" src="/virl:topology/virl:node[12]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[1]" src="/virl:topology/virl:node[12]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[9]/virl:interface[2]" src="/virl:topology/virl:node[13]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[11]/virl:interface[4]" src="/virl:topology/virl:node[2]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[1]/virl:interface[4]" src="/virl:topology/virl:node[16]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[8]" src="/virl:topology/virl:node[14]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[7]" src="/virl:topology/virl:node[15]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[17]/virl:interface[1]" src="/virl:topology/virl:node[7]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[18]/virl:interface[1]" src="/virl:topology/virl:node[23]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[2]" src="/virl:topology/virl:node[23]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[15]/virl:interface[3]" src="/virl:topology/virl:node[21]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[20]/virl:interface[1]" src="/virl:topology/virl:node[21]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[20]/virl:interface[2]" src="/virl:topology/virl:node[3]/virl:interface[7]"/>
+    <connection dst="/virl:topology/virl:node[14]/virl:interface[3]" src="/virl:topology/virl:node[22]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[19]/virl:interface[1]" src="/virl:topology/virl:node[22]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[12]/virl:interface[1]" src="/virl:topology/virl:node[20]/virl:interface[3]"/>
+    <connection dst="/virl:topology/virl:node[21]/virl:interface[3]" src="/virl:topology/virl:node[4]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[13]/virl:interface[1]" src="/virl:topology/virl:node[21]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[20]/virl:interface[4]" src="/virl:topology/virl:node[14]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[20]/virl:interface[5]" src="/virl:topology/virl:node[13]/virl:interface[4]"/>
+    <connection dst="/virl:topology/virl:node[4]/virl:interface[2]" src="/virl:topology/virl:node[24]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[24]/virl:interface[2]" src="/virl:topology/virl:node[21]/virl:interface[5]"/>
+    <connection dst="/virl:topology/virl:node[3]/virl:interface[2]" src="/virl:topology/virl:node[25]/virl:interface[1]"/>
+    <connection dst="/virl:topology/virl:node[20]/virl:interface[6]" src="/virl:topology/virl:node[25]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[26]/virl:interface[1]" src="/virl:topology/virl:node[21]/virl:interface[6]"/>
+    <connection dst="/virl:topology/virl:node[27]/virl:interface[1]" src="/virl:topology/virl:node[26]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[8]/virl:interface[2]" src="/virl:topology/virl:node[17]/virl:interface[2]"/>
+    <connection dst="/virl:topology/virl:node[16]/virl:interface[2]" src="/virl:topology/virl:node[2]/virl:interface[2]"/>
+</topology>

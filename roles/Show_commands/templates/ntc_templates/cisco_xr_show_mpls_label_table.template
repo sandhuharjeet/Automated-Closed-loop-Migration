@@ -1,0 +1,11 @@
+Value TABEL (\S*[0-9])
+Value LABEL (\S+)
+Value OWNER (\S+)
+Value STATE (\S+)
+Value REWRITE (\S+)
+
+
+
+Start
+  ^${TABEL}\s+${LABEL}\s+${OWNER}\s+${STATE}\s+${REWRITE} -> Record
+

@@ -1,0 +1,23 @@
+---
+
+- hosts: "{{target}}"
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Show command collection for XR
+    ntc_show_command:
+      connection: ssh
+      template_dir: ../templates/ntc_templates/ 
+      platform: cisco_xr
+      host: "{{ ansible_host }}"
+      username: "{{ ansible_ssh_user }}"
+      password: "{{ ansible_ssh_pass }}"
+      command: "{{commands}}"
+    register: result
+
+  - copy:
+      content: "{{ ansible_play_hosts | map('extract', hostvars, 'result') | map(attribute='response') | list }}" 
+      dest: '../output/show_cmd_ouput_json.txt'
+    run_once: yes

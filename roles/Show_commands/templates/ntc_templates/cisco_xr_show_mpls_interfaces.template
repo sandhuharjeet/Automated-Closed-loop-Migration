@@ -1,0 +1,11 @@
+Value INTERFACE (\S.*[0-9].*)
+Value LDP (\S+)
+Value TUNNEL (\S+)
+Value STATIC (\S+)
+Value ENABLED (\S+)
+
+
+
+Start
+  ^${INTERFACE}\s+${LDP}\s+${TUNNEL}\s+${STATIC}\s+${ENABLED} -> Record
+

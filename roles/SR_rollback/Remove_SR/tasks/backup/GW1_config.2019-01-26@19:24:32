@@ -1,0 +1,171 @@
+Building configuration...
+!! IOS XR Configuration version = 6.2.1
+!! Last configuration change at Sun Jan 27 00:23:39 2019 by ********
+!
+hostname GW1
+group load-interval
+ interface 'GigabitEthernet.*'
+  load-interval 30
+ !
+end-group
+apply-group load-interval
+telnet vrf default ipv4 server max-servers 10
+username vagrant
+ group root-lr
+ group ********-support
+ secret 5 $1$TggM$x.RhZ94tARNkF0uB/66zj/
+!
+username ********
+ group root-lr
+ group ********-support
+ secret 5 $1$j6Oz$OTT9H1T5Fzycsvf2yD9eN/
+!
+tpa
+ address-family ipv4
+  update-source MgmtEth0/RP0/CPU0/0
+ !
+!
+ntp
+ server 172.16.1.254
+ update-calendar
+!
+ipv4 access-list global-ssm-range
+ 10 permit ipv4 232.0.0.0 0.255.255.255 any
+ 20 permit ipv4 239.0.0.0 0.255.255.255 any
+!
+interface Loopback0
+ ipv4 address 144.228.242.100 255.255.255.255
+ ipv6 address 2600:0:1:1239:144:228:242:100/128
+ ipv6 enable
+!
+interface MgmtEth0/RP0/CPU0/0
+ ipv4 address dhcp
+!
+interface GigabitEthernet0/0/0/0
+ ipv4 address 10.10.0.102 255.255.255.252
+!
+interface GigabitEthernet0/0/0/1
+ ipv4 address 201.1.1.2 255.255.255.252
+!
+interface GigabitEthernet0/0/0/2
+ ipv4 address 10.10.0.138 255.255.255.252
+!
+interface preconfigure MgmtEth0/0/CPU0/0
+ shutdown
+!
+prefix-set loopback-match
+  144.228.242.100/32
+end-set
+!
+route-policy pass-all
+  pass
+end-policy
+!
+route-policy local-pref
+  set local-preference 200
+  pass
+end-policy
+!
+route-policy loopback-adv
+  if destination in loopback-match then
+    pass
+  else
+    drop
+  endif
+end-policy
+!
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 MgmtEth0/RP0/CPU0/0 10.0.2.2
+  172.16.2.0/24 MgmtEth0/RP0/CPU0/0 172.16.1.254
+ !
+!
+router isis xr
+ is-type level-1
+ net 49.0001.1442.282.4210.00
+ log adjacency changes
+ address-family ipv4 unicast
+  metric-style wide
+  spf-interval maximum-wait 2000 initial-wait 100 secondary-wait 100
+  distance 15
+ !
+ address-family ipv6 unicast
+ !
+ interface Loopback0
+  passive
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/0
+  address-family ipv4 unicast
+  !
+  address-family ipv6 unicast
+  !
+ !
+ interface GigabitEthernet0/0/0/2
+  address-family ipv4 unicast
+   metric 2000
+  !
+ !
+!
+router bgp 1239
+ timers bgp 45 135
+ bgp router-id 144.228.242.100
+ bgp update-delay 300
+ bgp log neighbor changes detail
+ bgp fast-external-fallover disable
+ address-family ipv4 unicast
+  bgp attribute-download
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv4 multicast
+  distance bgp 20 20 20
+  redistribute connected route-policy loopback-adv
+  redistribute static
+ !
+ address-family ipv6 unicast
+  redistribute static
+ !
+ neighbor-group RR-client-v4-v6
+  remote-as 1239
+  description IPv4/IPv6 peer to Core router
+  update-source Loopback0
+  address-family ipv4 unicast
+   next-hop-self
+  !
+  address-family ipv4 multicast
+   next-hop-self
+  !
+  address-family ipv6 unicast
+   next-hop-self
+  !
+ !
+ neighbor 201.1.1.1
+  remote-as 201
+  update-source GigabitEthernet0/0/0/1
+  address-family ipv4 unicast
+   route-policy pass-all in
+   route-policy pass-all out
+  !
+ !
+ neighbor 144.228.242.20
+  use neighbor-group RR-client-v4-v6
+  address-family ipv4 unicast
+   route-policy local-pref in
+  !
+ !
+ neighbor 144.228.242.40
+  use neighbor-group RR-client-v4-v6
+ !
+!
+lldp
+!
+grpc
+ port 57777
+!
+ssh server v2
+ssh server vrf default
+end

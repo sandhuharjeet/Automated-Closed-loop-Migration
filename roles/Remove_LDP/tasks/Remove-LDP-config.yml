@@ -1,0 +1,16 @@
+---
+
+- hosts: '{{target}}'
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Removing MPLS LDP from the Selected XR Routers
+    iosxr_config:
+      provider:
+        host: "{{ ansible_host }}"
+        username: '{{ ansible_ssh_user }}'
+        password: '{{ ansible_ssh_pass }}'
+      lines: no mpls ldp
+      backup: yes

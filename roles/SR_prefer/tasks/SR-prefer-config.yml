@@ -1,0 +1,16 @@
+---
+
+- hosts: '{{target}}'
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  tasks:
+  - name: Configuring SR Prefer on selected Router
+    iosxr_config:
+      provider:
+        host: "{{ ansible_host }}"
+        username: "{{ ansible_ssh_user }}"
+        password: "{{ ansible_ssh_pass }}"
+      src: ../templates/SR-prefer-template.j2
+      backup: yes

@@ -1,0 +1,19 @@
+---
+
+- hosts: '{{target}}'
+  remote_user: vagrant
+  connection: local
+  gather_facts: no
+
+  vars_files:
+  - ../defaults/main.yml
+
+  tasks:
+  - name: Rolling back SR global config selected router
+    iosxr_config:
+      provider:
+        host: "{{ ansible_host }}"
+        username: '{{ ansible_ssh_user }}'
+        password: '{{ ansible_ssh_pass }}'
+      src: ../templates/SR-global-template-rollback.j2
+      backup: yes

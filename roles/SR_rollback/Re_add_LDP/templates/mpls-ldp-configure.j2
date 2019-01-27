@@ -1,0 +1,11 @@
+mpls ldp
+ address-family ipv4
+  label
+   local
+    allocate for mpls-ldp
+   !
+  !
+ !
+{% for interfaces in result.response %}
+ interface {{ interfaces.interface }}
+{% endfor %}

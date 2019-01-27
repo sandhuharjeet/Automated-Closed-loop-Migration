@@ -115,18 +115,18 @@ This solution can be used in two different ways. First to demo the automated sol
 
 **For Demo Purposes** :
 
-Once you have installed a complete solution using steps described below in Installation section, you can use this automated solution to demo MPLS LDP based SP network to Segment routing based network. You can open Grafana dashboard to validate end to end L3vpn and Global Internet traffic is running fine, without any drop. If everything is running fine, you can open Jupyter notebook **`Automated_MPLS_to_SR_migration_MOP.ipynb”** and execute entire MOP by clicking on `Run All” under `cell” sub-menu of notebook or run each step of MOP one by one by clicking `run cell” but for each step. 
+Once you have installed a complete solution using steps described below in Installation section, you can use this automated solution to demo MPLS LDP based SP network to Segment routing based network. You can open Grafana dashboard to validate end to end L3vpn and Global Internet traffic is running fine, without any drop. If everything is running fine, you can open Jupyter notebook `Automated_MPLS_to_SR_migration_MOP.ipynb` and execute entire MOP by clicking on `Run All` under `cell` sub-menu of notebook or run each step of MOP one by one by clicking `run cell` but for each step. 
 
-If during execution there is any traffic drop and error seen, then you can open `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb” jupyter notbook and execute all the cells to rollback the migration. 
+If during execution there is any traffic drop and error seen, then you can open `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb` jupyter notbook and execute all the cells to rollback the migration. 
 
-Once any of the notebook is run successfully you can save the entire output of the MOP by using `Save as HTML” under `File” Menu. This can be used for sharing the MOP code and also execution output with other users for reference. 
+Once any of the notebook is run successfully you can save the entire output of the MOP by using `Save as HTML` under `File` Menu. This can be used for sharing the MOP code and also execution output with other users for reference. 
 
 
 **For Production Purposes** :
 
 For production you can use either Ansible playbooks individually for any Migration steps or use it with Jupyter Notebooks (Automated_MPLS_to_SR_migration_MOP.ipynb & Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb)to execute entire MOP as used in this development. 
 
-To use Ansible automation for production, only file that need to be udated is `main.yml” under /roles/<specific role>”/defaults directory. These main.yml files contain variables for each ansible playbook(role). 
+To use Ansible automation for production, only file that need to be udated is `main.yml` under /roles/<specific role>`/defaults directory. These main.yml files contain variables for each ansible playbook(role). 
 For production we need to change variables required for production like Segment routing SIDs, Loopback IP addressed, Prefix for Mapping server etc. 
 Also this automation was build considering SP network is using ISIS as IGP in the core. If SP network is using OSPF in the core, then we need to update couple of ansible playbooks to match that. If you require to make those changes, please reach out to the development team mentioned above in Team member section. 
 
@@ -144,18 +144,18 @@ These steps are for Ubuntu Linux but can be used for other installation as well.
 **Step2**: [Install/Setup Pipeline, InfluxDB and Grafana]( https://github.com/cisco/bigmuddy-network-telemetry-pipeline)
 **Step3**: [Install/setup Jupyter Notebook]( https://jupyter.org/install.html)
 **Step4**: [Install Ansible 2.6 or later] (https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-**Step6**: [Install TextFSM using `pip install textfsm”] (https://pypi.org/project/textfsm/)
+**Step6**: [Install TextFSM using `pip install textfsm`] (https://pypi.org/project/textfsm/)
 **Step7**: [Git Clone the automation to local linux server] (https://github.com/sandhuharjeet/Automated-Closed-loop-Migration)
-**Step8**: Run Virl and load topology file `LDP_to_SR_Demo_VIRL_Base_config.virl” under `Virl_files” folder of cloned project. Start the simulation. 
-**Step9**: Start Ostinato client on ubuntu and load traffic generation profile `LDP_to_SR_Demo_ostinato_traffic_generator_VIRL.ossn” under `Virl_files” folder of cloned project.
-**Step10**: Load Garfana Dashboard using profile file `SR-Demo-all-interface-stats-1548624550086.json” under `Garfana Profile” Folder.
-**Step11**: Start Jupyter Notebook Server and Open `Automated_MPLS_to_SR_migration_MOP.ipynb” & `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb” notebooks.
+**Step8**: Run Virl and load topology file `LDP_to_SR_Demo_VIRL_Base_config.virl` under `Virl_files` folder of cloned project. Start the simulation. 
+**Step9**: Start Ostinato client on ubuntu and load traffic generation profile `LDP_to_SR_Demo_ostinato_traffic_generator_VIRL.ossn` under `Virl_files` folder of cloned project.
+**Step10**: Load Garfana Dashboard using profile file `SR-Demo-all-interface-stats-1548624550086.json` under `Garfana Profile` Folder.
+**Step11**: Start Jupyter Notebook Server and Open `Automated_MPLS_to_SR_migration_MOP.ipynb` & `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb` notebooks.
 **Step12**: This completes the installation, please use above Usage section to run the complete demo.
 
 
 **Installation for Production** :
 
-For Production only requirement are that you should have Ansible 2.5 or higher and Jupyter notebook server. Once you have installed and setup Ansible, jupyter notebook, you can execute either ansible playbooks individually or use Juypter notebooks `Automated_MPLS_to_SR_migration_MOP.ipynb” & `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb” to run these MOPs. Please update main.yml file as described above in usage section. 
+For Production only requirement are that you should have Ansible 2.5 or higher and Jupyter notebook server. Once you have installed and setup Ansible, jupyter notebook, you can execute either ansible playbooks individually or use Juypter notebooks `Automated_MPLS_to_SR_migration_MOP.ipynb` & `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb` to run these MOPs. Please update main.yml file as described above in usage section. 
 
 
 

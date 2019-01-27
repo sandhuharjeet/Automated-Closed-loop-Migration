@@ -57,7 +57,7 @@ Our Solution will Leverage the following Open source technologies
 ## Solution Components
 
 
-
+![alt text]( https://github.com/sandhuharjeet/Automated-Closed-loop-Migration/blob/master/Component-Diagram.png)
 
 **Automation Components**:
 
@@ -66,7 +66,9 @@ Our Solution will Leverage the following Open source technologies
 **Jupyter Notebook** : The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. This is being used for generating an Automation MOP, which in turn calls Ansible scripts to execute MOP steps. This act as front end for end user. Apart from ansible playbooks, other python based automation is done within jupyter notebook cells. Other useful features of Jupyter notebook are:
 
 Logging: Which helps with saving MOP execution for later validation and troubleshooting. MOP can be shared, as PDF, HTML, email, dropbox, github etc. 
+
 Webhosted Application: Which helps to run all the MOPs on single server, and end MOP execution engineer just need to have web based link to access MOP.
+
 Interactive Output: As we execute each MOP step, output is displayed on the same web page, and also code can produce rich, interactive output like HTML, tables, images etc.  
 
 **TextFSM** : TextFSM is a Python module that implements a template based state machine for parsing semi-formatted text. This module is used for programmatic access to information given by the output of CLI for the routers. Using TextFSM we have converted multiple CLI output to Json format. We have developed new TextFSM templates to convert specific IOS-XR CLIs into Json, which is used for programmatic validation of given step. 

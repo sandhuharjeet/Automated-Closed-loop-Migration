@@ -21,8 +21,6 @@ Also, as we will be using VIRL in our solution so customer will be able to test 
  
 We will be utilizing Streaming telemetry for closed loop feedback to validate service performance during this migration. This way if at any time during migration there is service drop or performance degradation, changes can be rolled back using rollback automation.
 
- 
-As part of this project we will also add some additional features based on evaluation of usability and Gap analysis.
 
 
 ### Cisco Products Technologies/ Services

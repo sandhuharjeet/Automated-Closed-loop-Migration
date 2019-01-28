@@ -57,11 +57,11 @@ Our Solution will Leverage the following Open source technologies
 
 ![alt text]( https://github.com/sandhuharjeet/Automated-Closed-loop-Migration/blob/master/Component-Diagram.png)
 
-###Automation Components###:
+### Automation Components :
 
-####Ansible#### : Most of the automation is done using Ansible IOS-XR modules like iosxr_config, iosxr_command etc. Most of the automation and structure is build in a manner that same automation can be applied to production environment by just updating variables file. 
+#### Ansible : Most of the automation is done using Ansible IOS-XR modules like iosxr_config, iosxr_command etc. Most of the automation and structure is build in a manner that same automation can be applied to production environment by just updating variables file. 
 
-####Jupyter Notebook#### : The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. This is being used for generating an Automation MOP, which in turn calls Ansible scripts to execute MOP steps. This act as front end for end user. Apart from ansible playbooks, other python-based automation is done within jupyter notebook cells. Other useful features of Jupyter notebook are:
+#### Jupyter Notebook : The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. This is being used for generating an Automation MOP, which in turn calls Ansible scripts to execute MOP steps. This act as front end for end user. Apart from ansible playbooks, other python-based automation is done within jupyter notebook cells. Other useful features of Jupyter notebook are:
 
 Logging: Which helps with saving MOP execution for later validation and troubleshooting. MOP can be shared, as PDF, HTML, email, dropbox, github etc. 
 
@@ -69,37 +69,37 @@ Webhosted Application: Which helps to run all the MOPs on single server, and end
 
 Interactive Output: As we execute each MOP step, output is displayed on the same web page, and also code can produce rich, interactive output like HTML, tables, images etc.  
 
-####TextFSM#### : TextFSM is a Python module that implements a template based state machine for parsing semi-formatted text. This module is used for programmatic access to information given by the output of CLI for the routers. Using TextFSM we have converted multiple CLI output to Json format. We have developed new TextFSM templates to convert specific IOS-XR CLIs into Json, which is used for programmatic validation of given step. 
+#### TextFSM : TextFSM is a Python module that implements a template based state machine for parsing semi-formatted text. This module is used for programmatic access to information given by the output of CLI for the routers. Using TextFSM we have converted multiple CLI output to Json format. We have developed new TextFSM templates to convert specific IOS-XR CLIs into Json, which is used for programmatic validation of given step. 
 
-####Pandas#### : For user experience other feature we have used in our MOP is python based Pandas library, which is used to cover CLI output into beautiful tables. Once TextFSM converts CLI output into Json, we have used Pandas dataFrames to covert that output into HTML tables. With table format of CLI output, end user can easily validate specific output. 
+#### Pandas : For user experience other feature we have used in our MOP is python based Pandas library, which is used to cover CLI output into beautiful tables. Once TextFSM converts CLI output into Json, we have used Pandas dataFrames to covert that output into HTML tables. With table format of CLI output, end user can easily validate specific output. 
 
 
 
-###Streaming Telemetry Components###:  
+### Streaming Telemetry Components :  
 
 As we execute MOP to covert MPLS LDP based network to Segment routing based network, we need to make sure that end user traffic is not impacted. For this we need a mechanism for continuous feedback for end user traffic forwarding. For this we have used Cisco IOS-XR based Streaming telemetry. Using streaming telemetry, we get live feedback for end user traffic forwarding. If at any given time we see any drop in end user traffic, various actions can be take, like validating why traffic dropped or we can immediately execute Backout MOP, which is also part of the overall automation. Various components used for digesting telemetry data are :-
 
-####Pipeline#### : Pipeline is an all-batteries-included utility which consumes IOS XR telemetry streams directly from the router or indirectly from a publish/subscribe bus. Once collected, pipeline can perform some
+#### Pipeline : Pipeline is an all-batteries-included utility which consumes IOS XR telemetry streams directly from the router or indirectly from a publish/subscribe bus. Once collected, pipeline can perform some
 limited transformations of the data and forwards the resulting content
 on to a downstream, typically off-the-shelf, consumer. Supported
 downstream consumers include Apache Kafka, Influxdata TICK
 stack, prometheus, dedicated gRPC clients, as well as dump-to-file for diagnostics. 
 
-####InfluxDb#### : Pipeline write telemetry data into InfluxDB, an open source platform for time-series data. This database is used to store telemetry data being streamed from the routers. 
+#### InfluxDb : Pipeline write telemetry data into InfluxDB, an open source platform for time-series data. This database is used to store telemetry data being streamed from the routers. 
 
-####Grafana#### : Grafana is a very popular visualization tool, that can be used for monitoring and alerting. We have used Garfana as front end to visualize live status of the end user traffic across SP core, when the execution of the MOP is happening. 
+#### Grafana : Grafana is a very popular visualization tool, that can be used for monitoring and alerting. We have used Garfana as front end to visualize live status of the end user traffic across SP core, when the execution of the MOP is happening. 
 
 
 
-###Virtualization components for Demo### :  
+### Virtualization components for Demo :  
 
 For implementing this solution and performing Demo’s for the customer, we have used all virtual environment running in two different VMs on UCS-C240. One VM is used to simulate Customer network using Cisco Virl, which is powerful, easy-to-use, and extensible network modeling and simulation environment. Other VM is used for other automation tools described above.
 
 Using VIRL we have simulated typical SP network with two types of services, L3VPN service and Global Internet Service. Base configuration consists of end to end MPLS LDP based L3vpn service and end to end ipv4 based global Internet service.  
 
-####Virtual Router####: For simulating SP core and Edge we have used IOS-XRv 6.2.1 image.  For end customer CE routers we have used virtual IOS image. 
+#### Virtual Router: For simulating SP core and Edge we have used IOS-XRv 6.2.1 image.  For end customer CE routers we have used virtual IOS image. 
 
-####Virtual Traffic Generator####: Also, to simulate end user traffic we have used Virtual traffic generator Ostinato. This is also running as VM inside VIRL environment. 
+#### Virtual Traffic Generator: Also, to simulate end user traffic we have used Virtual traffic generator Ostinato. This is also running as VM inside VIRL environment. 
 
 
 
@@ -111,7 +111,7 @@ Using VIRL we have simulated typical SP network with two types of services, L3VP
 
 This solution can be used in two different ways. First to demo the automated solution to end audience. Second for production environment to migrate MPLS LDP based network to Segment-routing based network. 
 
-###For Demo Purposes#### :
+### For Demo Purposes :
 
 Once you have installed a complete solution using steps described below in Installation section, you can use this automated solution to demo MPLS LDP based SP network to Segment routing based network. You can open Grafana dashboard to validate end to end L3vpn and Global Internet traffic is running fine, without any drop. If everything is running fine, you can open Jupyter notebook `Automated_MPLS_to_SR_migration_MOP.ipynb` and execute entire MOP by clicking on `Run All` under `cell` sub-menu of notebook or run each step of MOP one by one by clicking `run cell` but for each step. 
 
@@ -120,7 +120,7 @@ If during execution there is any traffic drop and error seen, then you can open 
 Once any of the notebook is run successfully you can save the entire output of the MOP by using `Save as HTML` under `File` Menu. This can be used for sharing the MOP code and also execution output with other users for reference. 
 
 
-###For Production Purposes### :
+### For Production Purposes :
 
 For production you can use either Ansible playbooks individually for any Migration steps or use it with Jupyter Notebooks (Automated_MPLS_to_SR_migration_MOP.ipynb & Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb)to execute entire MOP as used in this development. 
 
@@ -134,7 +134,7 @@ Also this automation was build considering SP network is using ISIS as IGP in th
 
 As mentioned above this solution can be used as a Demo or used in production, so we will explain installation steps for both these below :
 
-###Installation for Demo### :
+### Installation for Demo :
 
 These steps are for Ubuntu Linux but can be used for other installation as well. Also Python version 2.5 or later is required. 
 
@@ -161,7 +161,7 @@ These steps are for Ubuntu Linux but can be used for other installation as well.
 **Step12**: This completes the installation, please use above Usage section to run the complete demo.
 
 
-###Installation for Production#### :
+### Installation for Production :
 
 For Production only requirement are that you should have Ansible 2.5 or higher and Jupyter notebook server. Once you have installed and setup Ansible, jupyter notebook, you can execute either ansible playbooks individually or use Juypter notebooks `Automated_MPLS_to_SR_migration_MOP.ipynb` & `Automated_MPLS_to_SR_migration_Rollback_MOP.ipynb` to run these MOPs. Please update main.yml file as described above in usage section. 
 

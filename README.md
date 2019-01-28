@@ -1,4 +1,4 @@
-# Automated-Migration-of-MPLS-LDP-TO-Segment-Routing
+# Automated-Migration-of-MPLS-LDP-network-to-Segment-Routing
 
 Using Pythion, Ansible, CLI Regex parsing, streaming telemetry & APIs etc., we will be building a fully automated web app for MPLS to segment routing migration. We will also use open source tools like Jupyter Notebooks, InfluxDB etc. Additionally, we will be utilizing VIRL for simulating the customer network
 

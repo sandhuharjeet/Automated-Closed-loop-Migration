@@ -1,4 +1,4 @@
-# Automated-Closed-loop-Migration-Project
+# Automated-Closed-loop-Migration-of-MPLS-LDP-TO-Segment-Routing
 
 Using Pythion, Ansible, CLI Regex parsing, streaming telemetry & APIs etc., we will be building a fully automated web app for MPLS to segment routing migration. We will also use open source tools like Jupyter Notebooks, InfluxDB etc. Additionally, we will be utilizing VIRL for simulating the customer network
 
@@ -93,7 +93,7 @@ stack, prometheus, dedicated gRPC clients, as well as dump-to-file for diagnosti
 
 ### Virtualization components for Demo :  
 
-For implementing this solution and performing Demo’s for the customer, we have used all virtual environment running in two different VMs on UCS-C240. One VM is used to simulate Customer network using Cisco Virl, which is powerful, easy-to-use, and extensible network modeling and simulation environment. Other VM is used for other automation tools described above.
+For implementing this solution and performing Demo√ïs for the customer, we have used all virtual environment running in two different VMs on UCS-C240. One VM is used to simulate Customer network using Cisco Virl, which is powerful, easy-to-use, and extensible network modeling and simulation environment. Other VM is used for other automation tools described above.
 
 Using VIRL we have simulated typical SP network with two types of services, L3VPN service and Global Internet Service. Base configuration consists of end to end MPLS LDP based L3vpn service and end to end ipv4 based global Internet service.  
 

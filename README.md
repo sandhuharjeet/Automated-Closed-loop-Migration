@@ -42,16 +42,6 @@ Our Solution will Leverage the following Open source technologies
 * [pandas](https://pandas.pydata.org/)
 
 
-
-## Team Members
-
-
-* Harjeet Sandhu <harjeets@cisco.com> -  TELCO & MOBILE HQ
-* Raj Singh <rajsin2@cisco.com> -  TELCO & MOBILE HQ
-* Marty Fierbaugh <mfierbau@cisco.com> - SELECT HQ
-
-
-
 ## Solution Components
 
 
